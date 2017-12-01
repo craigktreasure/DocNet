@@ -1,0 +1,6 @@
+﻿<Project xmlns='http://schemas.microsoft.com/developer/msbuild/2003'>
+  <PropertyGroup>
+    <DocnetToolsPath>$(MSBuildThisFileDirectory)..\tools\net461</DocnetToolsPath>
+    <DocnetExePath>$(DocnetToolsPath)\docnet.exe</DocnetExePath>
+  </PropertyGroup>
+</Project>

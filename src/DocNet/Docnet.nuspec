@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Docnet</id>
+    <version>$version$</version>
+    <title>Docnet</title>
+    <authors>Frans Bouma</authors>
+    <owners>Frans Bouma</owners>
+    <licenseUrl>http://fransbouma.github.io/DocNet/license.htm</licenseUrl>
+    <projectUrl>http://fransbouma.github.io/DocNet/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <developmentDependency>true</developmentDependency>
+    <description>Static Documentation Site Generator</description>
+    <copyright>Copyright ©2017 Frans Bouma</copyright>
+    <dependencies></dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\readme.md" />
+    <file src="nuget\lib\**\*" target="lib\" />
+    <file src="nuget\build\**\*" target="build\" />
+    <file src="..\..\Themes\**\*" target="tools\net461\Themes\" />
+    <file src="$binOutputPath$\*.exe" target="tools\net461\" />
+    <file src="$binOutputPath$\docnet.exe.config" target="tools\net461\" />
+    <file src="$binOutputPath$\*.dll" target="tools\net461\" />
+  </files>
+</package>

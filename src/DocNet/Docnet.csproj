@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <BuildPackage>true</BuildPackage>
+    <PackageSuffix Condition="$(Configuration) == '' Or $(Configuration) == 'Debug'">alpha-001</PackageSuffix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -74,6 +76,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Docnet.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="nuget\**\*" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -93,4 +99,25 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="BuildPackage" AfterTargets="Build" Condition="$(BuildPackage) == true">
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="myAssemblyInfo" />
+    </GetAssemblyIdentity>
+    <PropertyGroup>
+      <PackagesDirectory>$(MSBuildProjectDirectory)\..\..\packages</PackagesDirectory>
+      <NuGetToolsPath>$(PackagesDirectory)\NuGet.CommandLine.4.4.1\tools</NuGetToolsPath>
+      <NuGetExePath>$(NuGetToolsPath)\NuGet.exe</NuGetExePath>
+      <PackageOutputPath>$(MSBuildThisFileDirectory)$(OutputPath.Trim("\\"))</PackageOutputPath>
+      <PackageVersion>%(myAssemblyInfo.Version)</PackageVersion>
+      <NuspecFile>$(MSBuildThisFileDirectory)$(MSBuildProjectName).nuspec</NuspecFile>
+      <NuspecProperties>version=$(PackageVersion);configuration=$(Configuration);binOutputPath=$(MSBuildProjectDirectory)\$(OutputPath.Trim("\\"))</NuspecProperties>
+      <NuGetPackCommand>"$(NuGetExePath)" pack</NuGetPackCommand>
+      <NuGetPackCommand>$(NuGetPackCommand) "$(NuspecFile)"</NuGetPackCommand>
+      <NuGetPackCommand>$(NuGetPackCommand) -Properties "$(NuspecProperties)"</NuGetPackCommand>
+      <NuGetPackCommand>$(NuGetPackCommand) -OutputDirectory "$(PackageOutputPath)"</NuGetPackCommand>
+      <NuGetPackCommand>$(NuGetPackCommand) -Tool</NuGetPackCommand>
+      <NuGetPackCommand Condition="$(PackageSuffix) != ''">$(NuGetPackCommand) -Suffix $(PackageSuffix)</NuGetPackCommand>
+    </PropertyGroup>
+    <Exec Command="$(NuGetPackCommand)" WorkingDirectory="$(MSBuildProjectDirectory)" />
+  </Target>
 </Project>
