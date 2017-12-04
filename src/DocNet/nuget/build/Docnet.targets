@@ -9,12 +9,15 @@
 
   <!-- RunDocnet
     Uses $(DocnetExePath) to run docnet.exe.
+    Set <DocnetClearDestinationFolder>true</DocnetClearDestinationFolder> to clear the destination folder.
   -->
   <Target Name="RunDocnet"
           AfterTargets="Build">
     <PropertyGroup>
-      <DocnetCommand>$(DocnetExePath) $(DocnetJsonPath)</DocnetCommand>
+      <DocnetCommand>$(DocnetExePath)</DocnetCommand>
+      <DocnetCommand Condition="$(DocnetClearDestinationFolder) == 'true'">$(DocnetCommand) -c</DocnetCommand>
+      <DocnetCommand>$(DocnetCommand) $(DocnetJsonPath.Trim("\\"))</DocnetCommand>
     </PropertyGroup>
-    <Exec Command="$(DocnetCommand)" />
+    <Exec Command="$(DocnetCommand)" WorkingDirectory="$(MSBuildProjectDirectory)" />
   </Target>
 </Project>

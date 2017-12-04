@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <BuildPackage>true</BuildPackage>
-    <PackageSuffix Condition="$(Configuration) == '' Or $(Configuration) == 'Debug'">alpha-001</PackageSuffix>
+    <PackageSuffix Condition="$(Configuration) == '' Or $(Configuration) == 'Debug'">alpha-002</PackageSuffix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
